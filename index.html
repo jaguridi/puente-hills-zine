@@ -656,7 +656,10 @@
             source.src = `${folder}/audio${fileNumber}.mp3`;
             audio.load();
             modal.classList.add('active');
-            audio.play();
+            audio.addEventListener('canplay', function onCanPlay() {
+                audio.removeEventListener('canplay', onCanPlay);
+                audio.play().catch(err => console.warn('Audio play failed:', err));
+            });
         }
 
         // Open external link
